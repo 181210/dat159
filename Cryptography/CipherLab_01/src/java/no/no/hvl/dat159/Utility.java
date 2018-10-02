@@ -1,4 +1,4 @@
-package java.no;
+package no.hvl.dat159;
 
 public class Utility {
 

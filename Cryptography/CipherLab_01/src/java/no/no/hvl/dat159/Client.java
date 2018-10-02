@@ -1,32 +1,34 @@
-package java.no;
+package no.hvl.dat159;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.io.*;
 
 
 public class Client implements IParent {
 
-
+    static Utility ut = new Utility();
 
     public static void main(String[] args){
-      //  Client client = new Client();
-      //  client.sendAndReceice();
+        Client client = new Client();
+        client.sendAndReceice();
 
-        Utility ut = new Utility();
 
-        String message = "ILOVEPIZZA";
+        System.out.println("Write in the text that you want crypted: ");
+        InputStreamReader keyboard = new InputStreamReader(System.in);
+        BufferedReader inputMsg = new BufferedReader(keyboard);
 
-        byte[] inputArray;
+        String message = null;
+        try {
+            message = inputMsg.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        inputArray = message.toUpperCase().getBytes();
-
-        byte[] cryptedMsg = encryptMessage(inputArray);
-
-        ut.byteArrayToString(cryptedMsg);
-
+        ut.byteArrayToString(encryptMessage(message.toUpperCase().getBytes()));
 
     }
 
@@ -72,8 +74,8 @@ public class Client implements IParent {
 
     }
 
-    @Override
-    public byte[] encryptMessage(byte[] inputArray) {
+
+    public static byte[] encryptMessage(byte[] inputArray) {
 
 
         byte[] cryptedMsg = ut.affineEncryption(inputArray);
@@ -83,8 +85,8 @@ public class Client implements IParent {
         return cryptedMsg;
     }
 
-    @Override
-    public byte[] decryptMessage(byte[] ciphertext) {
+
+    public static byte[] decryptMessage(byte[] ciphertext) {
 
         return null;
     }

@@ -1,4 +1,4 @@
-package java.no;
+package no.hvl.dat159;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -71,14 +71,14 @@ public class Server implements IParent{
 
     }
 
-    @Override
-    public byte[] encryptMessage(byte[] plaintext) {
+
+    public static byte [] encryptMessage(byte[] plaintext) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
-    public byte[] decryptMessage(byte[] ciphertext) {
+
+    public static byte[] decryptMessage(byte[] ciphertext) {
         // TODO Auto-generated method stub
         return null;
     }
