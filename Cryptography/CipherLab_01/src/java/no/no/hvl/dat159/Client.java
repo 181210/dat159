@@ -13,9 +13,8 @@ public class Client implements IParent {
     static Utility ut = new Utility();
 
     public static void main(String[] args){
-        Client client = new Client();
-        client.sendAndReceice();
-
+       // Client client = new Client();
+        //client.sendAndReceice();
 
         System.out.println("Write in the text that you want crypted: ");
         InputStreamReader keyboard = new InputStreamReader(System.in);
@@ -28,7 +27,15 @@ public class Client implements IParent {
             e.printStackTrace();
         }
 
-        ut.byteArrayToString(encryptMessage(message.toUpperCase().getBytes()));
+        byte[] sendEncrypt = message.toUpperCase().getBytes();
+
+        byte[] receiveEncrypt = ut.affineEncryption(sendEncrypt);
+
+        System.out.println("Message encrypted: " + ut.byteArrayToString(receiveEncrypt));
+
+        byte[] receiveDecrypt = ut.affineDecryption(receiveEncrypt);
+
+        System.out.println("Message decrypted: " + ut.byteArrayToString(receiveDecrypt));
 
     }
 
@@ -77,7 +84,6 @@ public class Client implements IParent {
 
     public static byte[] encryptMessage(byte[] inputArray) {
 
-
         byte[] cryptedMsg = ut.affineEncryption(inputArray);
 
         System.out.println("Kryptert tekst: " + ut.byteArrayToString(cryptedMsg));
@@ -88,6 +94,10 @@ public class Client implements IParent {
 
     public static byte[] decryptMessage(byte[] ciphertext) {
 
-        return null;
+        byte[] cryptedMsg = ut.affineDecryption(ciphertext);
+
+        System.out.println("Dekryptert tekst: " + ut.byteArrayToString(cryptedMsg));
+
+        return cryptedMsg;
     }
 }
