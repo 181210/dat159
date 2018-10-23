@@ -20,7 +20,7 @@ public class Application {
          *
          */
 
-        Wallet minerWallet = new Wallet()
+
 
         // 0. To get started, we need a few (single address) Wallets. Create 2 wallets.
         //    Think of one of them as the "miner" (the one collecting "block rewards").

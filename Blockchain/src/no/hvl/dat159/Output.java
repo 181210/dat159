@@ -19,7 +19,7 @@ public class Output {
         this.value = value;
     }
 
-    public String getAddress() {
+    public String getOutputAddress() {
         return address;
     }
 

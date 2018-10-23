@@ -15,11 +15,12 @@ public class Wallet {
 
     public Wallet(String id, UTXO utxo) {
         this.id = id;
-        this.utxo = utxoMap.forEach(); //TODO add user and traverse users UTXO
+        //utxo
+                //getUtxoMap().values().iterator().next().getOutputAddress().equals(getWalletAddress()); //TODO add user and traverse global UTXO
         keyPair = DSAUtil.generateRandomDSAKeyPair();
     }
 
-    public String getAddress() {
+    public String getWalletAddress() {
         return HashUtil.addressFromPublicKey(getPublicKey());
     }
 

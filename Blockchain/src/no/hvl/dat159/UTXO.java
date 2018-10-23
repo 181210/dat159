@@ -21,6 +21,8 @@ public class UTXO {
         map.put(new Input(ctx.getTxHash(), 0), ctx.getOutput());
     }
 
+        //TODO Add check if Map is empty --> prevOut is 0, else prevOut ref output
+
     public void addAndRemoveOutputsFrom(Transaction tx) {
         //TODO
     }

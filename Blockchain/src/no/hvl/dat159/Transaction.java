@@ -42,6 +42,26 @@ public class Transaction {
         //TODO
     }
 
+    public List<Input> getInputs() {
+        return inputs;
+    }
+
+    public List<Output> getOutputs() {
+        return outputs;
+    }
+
+    public PublicKey getSenderPublicKey() {
+        return senderPublicKey;
+    }
+
+    public byte[] getSignature() {
+        return signature;
+    }
+
+    public String getTxHash() {
+        return txHash;
+    }
+
     public void calculateTxHash() {
         //TODO
     }
@@ -50,7 +70,4 @@ public class Transaction {
         //TODO Complete validation of the transaction. Called by the Application.
         return true;
     }
-
-    //TODO Getters?
-
 }

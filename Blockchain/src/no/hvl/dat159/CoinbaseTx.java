@@ -13,14 +13,13 @@ public class CoinbaseTx {
         this.txHash = HashUtil.base64Encode(HashUtil.sha256Hash(coinbase));
         this.output = new Output(value, address);
         //Remember to calculate txHash
-
-        //TODO Add Hash to Value
     }
 
     @Override
     public String toString() {
-        //TODO For screen output
-        return "";
+        return "CoinbaseTx{" +
+                "coinbase='" + coinbase + '\'' +
+                '}';
     }
 
 
