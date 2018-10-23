@@ -16,15 +16,15 @@ public class Wallet {
     public Wallet(String id, UTXO utxo) {
         this.id = id;
         this.utxo = utxoMap.forEach(); //TODO add user and traverse users UTXO
+        keyPair = DSAUtil.generateRandomDSAKeyPair();
     }
 
     public String getAddress() {
-        //TODO
-        return null;
+        return HashUtil.addressFromPublicKey(getPublicKey());
     }
 
     public PublicKey getPublicKey() {
-        //TODO
+        keyPair.getPublic();
         return null;
     }
 
@@ -49,18 +49,29 @@ public class Wallet {
         // Do that manually from the Application-main.
     }
 
-    @Override
-    public String toString() {
-        //TODO
-        return null;
-    }
-
     public long getBalance() {
         //TODO
         return 0;
     }
 
-    //TODO Getters?
+    public String getId() {
+        return id;
+    }
+
+    public KeyPair getKeyPair() {
+        return keyPair;
+    }
+
+    public Map<Input, Output> getUtxoMap() {
+        return utxoMap;
+    }
+
+    @Override
+    public String toString() {
+        return "Wallet{" +
+                "id='" + id + '\'' +
+                '}';
+    }
 
     private long calculateBalance(Collection<Output> outputs) {
         //TODO
