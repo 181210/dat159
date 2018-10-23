@@ -14,16 +14,18 @@ public class UTXO {
     private Map<Input, Output> map = new HashMap<>();
 
     public void printUTXO() {
-        //TODO -> Print out the entire map
+        map.entrySet().forEach(System.out::println);
     }
 
     public void addOutputFrom(CoinbaseTx ctx) {
-        //TODO
+        map.put(new Input(ctx.getTxHash(), 0), ctx.getOutput());
     }
 
     public void addAndRemoveOutputsFrom(Transaction tx) {
         //TODO
     }
 
-    //TODO Getters?
+    public Map<Input, Output> getMap() {
+        return map;
+    }
 }

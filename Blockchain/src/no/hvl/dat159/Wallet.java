@@ -14,7 +14,8 @@ public class Wallet {
     private Map<Input, Output> utxoMap;
 
     public Wallet(String id, UTXO utxo) {
-        //TODO
+        this.id = id;
+        this.utxo = utxoMap.forEach(); //TODO add user and traverse users UTXO
     }
 
     public String getAddress() {
