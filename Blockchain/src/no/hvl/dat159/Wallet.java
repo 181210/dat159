@@ -2,11 +2,14 @@ package no.hvl.dat159;
 
 
 
+import kotlin.jvm.internal.markers.KMutableMap;
+
 import java.security.KeyPair;
+import java.security.KeyStore;
 import java.security.PublicKey;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Wallet {
@@ -30,19 +33,35 @@ public class Wallet {
 
         // 1. Collect all UTXO for this wallet and calculate balance
         // 2. Check if there are sufficient funds --- Exception?
-        // 3. Choose a number of UTXO to be spent --- Strategy?
-        // 4. Calculate change
-        // 5. Create an "empty" transaction
-        // 6. Add chosen inputs
-        // 7. Add 1 or 2 outputs, depending on change
-        // 8. Sign the transaction
-        // 9. Calculate the hash for the transaction
-        // 10. return
-        return null;
+
+        try{
+            if (getBalance() >= value){
+                System.out.println("Sufficient funds");
+                // 3. Choose a number of UTXO to be spent --- Strategy?
+
+
+                // 4. Calculate change
+                // 5. Create an "empty" transaction
+                Transaction transaction = new Transaction(null);
+                // 6. Add chosen inputs
+                // 7. Add 1 or 2 outputs, depending on change
+                // 8. Sign the transaction
+                // 9. Calculate the hash for the transaction
+                // 10. return
+                return transaction;
+                    }
+
+
+
+
+        } catch (Exception e) {
+            System.out.println("Insufficient funds in wallet. The transaction is terminated " + "e");
+        }
 
         // PS! We have not updated the UTXO yet. That is normally done
         // when appending the block to the blockchain, and not here!
         // Do that manually from the Application-main.
+        return null;
     }
 
     public String getWalletAddress() {
@@ -78,6 +97,7 @@ public class Wallet {
     }
 
     private long calculateBalance(Collection<Output> outputs) {
+
         return outputs.stream().filter(x ->x.getValue() > 0).collect(Collectors.summingLong(x -> x.getValue()));
     }
 
@@ -87,6 +107,31 @@ public class Wallet {
                 .filter(map -> map.getValue().getOutputAddress().matches(getWalletAddress()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return collect;
+    }
+
+    private Map<Input, Output> utxoToSpend(long value){
+
+
+        // Collect all the small ones and add up to value?
+        // Collect so that the least amount of change gets returned?
+        // Make several methods : One for least change and one for small sums
+        Map<Input, Output> toSpend = collectMyUtxo();
+
+
+
+//        Stream<Map.Entry<Input,Output>> sorted =
+//                toSpend.entrySet().stream()
+//                        .sorted(Map.Entry::comparingByValue());
+//
+
+
+        return null;
+    }
+
+    private long calcChange(){
+        //TODO calc the change from Outputs
+
+        return 0;
     }
 
 }
