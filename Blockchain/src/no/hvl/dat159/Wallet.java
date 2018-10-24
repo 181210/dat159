@@ -1,12 +1,13 @@
 package no.hvl.dat159;
 
+
+
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import java.util.*;
-import java.util.stream.Stream;
 
 public class Wallet {
 
@@ -22,14 +23,6 @@ public class Wallet {
         keyPair = DSAUtil.generateRandomDSAKeyPair();
     }
 
-    public String getWalletAddress() {
-        return HashUtil.addressFromPublicKey(getPublicKey());
-    }
-
-    public PublicKey getPublicKey() {
-        keyPair.getPublic();
-        return null;
-    }
 
     public Transaction createTransaction(long value, String address) throws Exception {
 
@@ -52,10 +45,17 @@ public class Wallet {
         // Do that manually from the Application-main.
     }
 
+    public String getWalletAddress() {
+        return HashUtil.addressFromPublicKey(getPublicKey());
+    }
+
+    public PublicKey getPublicKey() {
+        keyPair.getPublic();
+        return null;
+    }
+
     public long getBalance() {
-        //TODO
-        // Get collectMyUtxo first --> Match with address after
-        return 0;
+        return calculateBalance(collectMyUtxo().values());
     }
 
     public String getId() {
@@ -78,18 +78,15 @@ public class Wallet {
     }
 
     private long calculateBalance(Collection<Output> outputs) {
-        //TODO
-        return 0;
+        return outputs.stream().filter(x ->x.getValue() > 0).collect(Collectors.summingLong(x -> x.getValue()));
     }
 
-    private Map<Input, Output> collectMyUtxo() {
+    private Map<Input,Output> collectMyUtxo() {
 
-        utxoMap
-
-        //utxoMap = Stream.
-        //getUtxoMap().values().iterator().next().getOutputAddress().equals(getWalletAddress()); //TODO add user and traverse global UTXO
-        //TODO
-        return null;
+        Map<Input,Output> collect = utxoMap.entrySet().stream()
+                .filter(map -> map.getValue().getOutputAddress().matches(getWalletAddress()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return collect;
     }
 
 }
