@@ -5,6 +5,9 @@ import java.security.PublicKey;
 import java.util.Collection;
 import java.util.Map;
 
+import java.util.*;
+import java.util.stream.Stream;
+
 public class Wallet {
 
     private String id;
@@ -15,8 +18,7 @@ public class Wallet {
 
     public Wallet(String id, UTXO utxo) {
         this.id = id;
-        //utxo
-                //getUtxoMap().values().iterator().next().getOutputAddress().equals(getWalletAddress()); //TODO add user and traverse global UTXO
+        utxoMap = utxo.getMap();
         keyPair = DSAUtil.generateRandomDSAKeyPair();
     }
 
@@ -52,6 +54,7 @@ public class Wallet {
 
     public long getBalance() {
         //TODO
+        // Get collectMyUtxo first --> Match with address after
         return 0;
     }
 
@@ -80,6 +83,11 @@ public class Wallet {
     }
 
     private Map<Input, Output> collectMyUtxo() {
+
+        utxoMap
+
+        //utxoMap = Stream.
+        //getUtxoMap().values().iterator().next().getOutputAddress().equals(getWalletAddress()); //TODO add user and traverse global UTXO
         //TODO
         return null;
     }

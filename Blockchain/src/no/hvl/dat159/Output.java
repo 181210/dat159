@@ -23,7 +23,7 @@ public class Output {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setOutputAddress(String address) {
         this.address = address;
     }
 
