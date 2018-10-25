@@ -1,6 +1,6 @@
 package no.hvl.dat159;
 
-public class Output {
+public class Output implements Comparable<Output> {
 
     //Simplified compared to Bitcoin - The address should be a script
     private long value;

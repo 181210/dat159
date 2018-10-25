@@ -111,21 +111,18 @@ public class Wallet {
 
     private Map<Input, Output> utxoToSpend(long value){
 
-
-        // Collect all the small ones and add up to value?
-        // Collect so that the least amount of change gets returned?
-        // Make several methods : One for least change and one for small sums
         Map<Input, Output> toSpend = collectMyUtxo();
 
+        //Arrange the map ascending by value
+        toSpend.entrySet().stream()
+                .sorted(Map.Entry.<Input, Output>comparingByValue().reversed());
+               // .forEach(System.out::println); --> print out for troubleshooting
+
+        //Add getValue() until the sum is = || > than value.
+        
 
 
-//        Stream<Map.Entry<Input,Output>> sorted =
-//                toSpend.entrySet().stream()
-//                        .sorted(Map.Entry::comparingByValue());
-//
-
-
-        return null;
+        return toSpend;
     }
 
     private long calcChange(){
