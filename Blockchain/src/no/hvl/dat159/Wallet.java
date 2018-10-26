@@ -42,7 +42,7 @@ public class Wallet {
 
                 // 4. Calculate change
                 // 5. Create an "empty" transaction
-                Transaction transaction = new Transaction(null);
+                Transaction transaction = new Transaction(getPublicKey());
                 // 6. Add chosen inputs
                 // 7. Add 1 or 2 outputs, depending on change
                 // 8. Sign the transaction
@@ -108,27 +108,38 @@ public class Wallet {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return collect;
     }
+//
+     private Map<Input, Output> utxoToSpend(long value){
 
-    private Map<Input, Output> utxoToSpend(long value){
+         Map<Input, Output> unsortMap = new HashMap<>();
 
-        Map<Input, Output> toSpend = collectMyUtxo();
+         unsortMap = collectMyUtxo();
 
-        //Arrange the map ascending by value
-        toSpend.entrySet().stream()
-                .sorted(Map.Entry.<Input, Output>comparingByValue().reversed());
-               // .forEach(System.out::println); --> print out for troubleshooting
+         //Arrange the map ascending by value
+         Map<Input, Output> result = unsortMap.entrySet().stream()
+                 .sorted(x -> x.getValue().compareTo(x.getValue()))
+//                 .sorted(Map.Entry.<Input, Output>comparingByValue())
+                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-        //Add getValue() until the sum is = || > than value.
-        
+         //TODO Output must be defined with getValue for comparison.
+
+//
 
 
-        return toSpend;
+
+
+//
+
+        //Add getValue() until the sum is >= value.
+        //Add all instances to the map
+
+
+        return result;
     }
 
-    private long calcChange(){
-        //TODO calc the change from Outputs
-
-        return 0;
+    private long calcChange(long value, long sum){
+        return value - sum;
     }
 
 }

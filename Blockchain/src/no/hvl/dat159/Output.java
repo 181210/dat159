@@ -1,5 +1,7 @@
 package no.hvl.dat159;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Output implements Comparable<Output> {
 
     //Simplified compared to Bitcoin - The address should be a script
@@ -33,5 +35,10 @@ public class Output implements Comparable<Output> {
                 "value=" + value +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NotNull Output output) {
+        return (int) output.getValue();
     }
 }

@@ -21,15 +21,15 @@ public class Transaction {
     private String txHash;
 
     public Transaction(PublicKey senderPublicKey) {
-        //TODO
+        this.senderPublicKey = senderPublicKey;
     }
 
     public void addInput(Input input) {
-        //TODO
+        inputs.add(input);
     }
 
     public void addOutput(Output output) {
-        //TODO
+        outputs.add(output);
     }
 
     @Override
@@ -64,6 +64,7 @@ public class Transaction {
 
     public void calculateTxHash() {
         //TODO
+
     }
 
     public boolean isValid() {

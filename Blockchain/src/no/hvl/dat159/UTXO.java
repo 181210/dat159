@@ -18,7 +18,15 @@ public class UTXO {
     }
 
     public void addOutputFrom(CoinbaseTx ctx) {
-        map.put(new Input(ctx.getTxHash(), 0), ctx.getOutput());
+
+        if (map.isEmpty()) {
+
+            map.put(new Input(ctx.getTxHash(), 0), ctx.getOutput());
+        } else {
+            //map.put()
+
+            //TODO find the reference to previous output
+        }
     }
 
         //TODO Add check if Map is empty --> prevOut is 0, else prevOut ref output
