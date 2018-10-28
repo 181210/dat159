@@ -15,7 +15,6 @@ import java.security.spec.X509EncodedKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 public class DSAUtil {
-
     public static KeyPair generateRandomDSAKeyPair() {
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA");
@@ -77,7 +76,6 @@ public class DSAUtil {
             throw new RuntimeException(e);
         }
     }
-
 
 
 }
