@@ -29,6 +29,13 @@ public class Wallet {
         return keyPair.getPublic();
     }
 
+    /**
+     * Returns a Transaction object
+     * @param value
+     * @param address
+     * @return
+     * @throws Exception
+     */
     public Transaction createTransaction(long value, String address) throws Exception {
 
         // 1. Collect all UTXO for this wallet and calculate balance
@@ -37,27 +44,28 @@ public class Wallet {
 
         // 2. Check if there are sufficient funds --- Exception?
         if(balance < value) {
-            throw new Exception("Not enough funds");
+            throw new Exception("Insufficient funds  - Transaction cancelled");
         }
 
         // 3. Choose a number of UTXO to be spent --- Strategy?
-        List<Input> UtxoToSend = new ArrayList<Input>();
+        List<Input> userUTXO = new ArrayList<Input>();
         Iterator iterator = myUtxo.entrySet().iterator();
         long collected = 0;
         while(collected < value && iterator.hasNext()) {
             Map.Entry<Input, Output> pair = (Map.Entry<Input, Output>)iterator.next();
             collected += pair.getValue().getValue();
-            UtxoToSend.add(pair.getKey());
+            userUTXO.add(pair.getKey());
         }
 
         // 4. Calculate change
+
         long change = collected - value;
 
         // 5. Create an "empty" transaction
         Transaction transaction = new Transaction(getPublicKey());
 
         // 6. Add chosen inputs
-        UtxoToSend.forEach(input -> {
+        userUTXO.forEach(input -> {
             try {
                 transaction.addInput(input);
             } catch (Exception e) {
@@ -88,16 +96,28 @@ public class Wallet {
         return new StringBuilder().append("Wallet  [id=").append(id).append(", address=").append(getAddress()).append(", balance=").append(getBalance()).append("]").toString();
     }
 
+    /**
+     * Returns user wallet balance
+     * @return
+     */
     public long getBalance() {
         return calculateBalance(collectMyUtxo().values());
     }
 
-    //TODO Getters?
 
+    /**
+     * Calculates users wallet balance
+     * @param outputs
+     * @return
+     */
     private long calculateBalance(Collection<Output> outputs) {
         return outputs.stream().filter(x -> x.getValue() > 0).mapToLong(x -> x.getValue()).sum();
     }
 
+    /**
+     * Returns Map sorted on users UTXO values
+     * @return
+     */
     private Map<Input, Output> collectMyUtxo() {
         Map<Input,Output> collect = utxoMap.entrySet().stream()
                 .filter(map -> map.getValue().getAddress().equals(getAddress()))

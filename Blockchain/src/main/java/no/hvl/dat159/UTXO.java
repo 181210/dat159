@@ -20,10 +20,18 @@ public class UTXO {
         return sb.toString();
     }
 
+    /**
+     * Add output from Coinbase
+     * @param ctx
+     */
     public void addOutputFrom(CoinbaseTx ctx) {
         map.put(new Input(ctx.getTxHash(), 0), ctx.getOutput());
     }
 
+    /**
+     * Add and remove output from UTXO map
+     * @param tx
+     */
     public void addAndRemoveOutputsFrom(Transaction tx) {
         tx.getOutputs().forEach(output -> map.put(new Input(tx.getTxHash(), tx.getOutputs().indexOf(output)), output));
         tx.getInputs().forEach(input -> map.remove(input));
@@ -33,6 +41,11 @@ public class UTXO {
         return map;
     }
 
+    /**
+     * Validates sum Input -> Output
+     * @param tx
+     * @return
+     */
     public boolean validateSumInputAndOutput(Transaction tx) {
         long sumInputs, sumOutputs;
         sumInputs = tx.getInputs().stream().mapToLong(in -> map.get(in).getValue()).sum();
@@ -40,6 +53,11 @@ public class UTXO {
         return sumInputs == sumOutputs;
     }
 
+    /**
+     * Validates owner of Inputs to Transaction
+     * @param tx
+     * @return
+     */
     public boolean verifyUnspentTxOwner(Transaction tx) {
         return tx.getInputs().stream().anyMatch(input -> map.get(input).getAddress().equals(HashUtil.addressFromPublicKey(tx.getSenderPublicKey())));
     }
