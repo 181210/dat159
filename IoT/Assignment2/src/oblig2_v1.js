@@ -7,12 +7,148 @@
         "info": "Heat control system. All communication through AWS cloud."
     },
     {
+        "id": "c5ab2319.a93c58",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "m20.cloudmqtt.com",
+        "port": "14879",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "e01e11dd.24bff",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard"
+    },
+    {
+        "id": "33059a0d.316ac6",
+        "type": "ui_group",
+        "z": "",
+        "name": "Temperature",
+        "tab": "e01e11dd.24bff",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "a0ec8047.a635d8",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "Courier,monospace",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "reset": false
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#000000",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#0eb8c0",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "Courier,monospace"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
         "id": "efb8d737.a9ca6",
         "type": "mqtt in",
         "z": "6dda958b.235854",
         "name": "Temp_sub",
         "topic": "Temp",
-        "qos": "2",
+        "qos": "1",
         "broker": "c5ab2319.a93c58",
         "x": 95,
         "y": 518,
@@ -30,7 +166,7 @@
         "z": "6dda958b.235854",
         "name": "Temp_pub",
         "topic": "Temp",
-        "qos": "",
+        "qos": "1",
         "retain": "true",
         "broker": "c5ab2319.a93c58",
         "x": 856,
@@ -83,7 +219,7 @@
         "z": "6dda958b.235854",
         "name": "Heat_pub",
         "topic": "Heating",
-        "qos": "",
+        "qos": "1",
         "retain": "false",
         "broker": "c5ab2319.a93c58",
         "x": 1075,
@@ -96,7 +232,7 @@
         "z": "6dda958b.235854",
         "name": "Heat_sub",
         "topic": "Heating",
-        "qos": "0",
+        "qos": "1",
         "broker": "c5ab2319.a93c58",
         "x": 83,
         "y": 221,
@@ -184,17 +320,17 @@
         "type": "switch",
         "z": "6dda958b.235854",
         "name": "Switch",
-        "property": "Temp_Set",
+        "property": "Temp",
         "propertyType": "global",
         "rules": [
             {
                 "t": "gt",
-                "v": "Temp",
+                "v": "Temp_Set",
                 "vt": "global"
             },
             {
                 "t": "lt",
-                "v": "Temp",
+                "v": "Temp_Set",
                 "vt": "global"
             }
         ],
@@ -516,44 +652,5 @@
                 "1c0efd40.e37e3b"
             ]
         ]
-    },
-    {
-        "id": "c5ab2319.a93c58",
-        "type": "mqtt-broker",
-        "z": "",
-        "name": "",
-        "broker": "m20.cloudmqtt.com",
-        "port": "14879",
-        "clientid": "",
-        "usetls": false,
-        "compatmode": true,
-        "keepalive": "60",
-        "cleansession": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": ""
-    },
-    {
-        "id": "33059a0d.316ac6",
-        "type": "ui_group",
-        "z": "",
-        "name": "Temperature",
-        "tab": "e01e11dd.24bff",
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "e01e11dd.24bff",
-        "type": "ui_tab",
-        "z": "",
-        "name": "Home",
-        "icon": "dashboard"
     }
 ]
