@@ -17,8 +17,9 @@ public class Main {
 
         temp = new Temperature();
 
-        port(getHerokuAssignedPort());
+        //port(getHerokuAssignedPort());
 
+        port(8081);
 
         get("tempsensor/current", (req, res) -> {
             Gson gson = new Gson();
@@ -67,4 +68,4 @@ public class Main {
 
 }
 
-}
+
