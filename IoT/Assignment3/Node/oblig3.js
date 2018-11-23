@@ -39,8 +39,7 @@
         "y": 664,
         "wires": [
             [
-                "1af51fd4.6e1a",
-                "d4436967.d3de"
+                "1af51fd4.6e1a"
             ]
         ]
     },
@@ -49,15 +48,15 @@
         "type": "function",
         "z": "a5d63966.aec19",
         "name": "Control Heating",
-        "func": "\nif(typeof global.get(\"heating\") === \"undefined\"){\n    if(msg.payload < 23){\n        global.set(\"heating\", \"on\")\n        msg.payload = \"on\";\n    }\n    else {\n        global.set(\"heating\", \"off\")\n        msg.payload = \"off\";\n    }\n}\nlet heating = global.get(\"heating\")\nif(msg.payload < 23 && heating !==\"on\"){\n    msg.payload = \"on\";\n    global.set(\"heating\", \"on\")\n}else if(msg.payload > 23 && heating !== \"off\") {\n    msg.payload = \"off\";\n    global.set(\"heating\", \"off\")\n}\nreturn msg;",
+        "func": "let temp = msg.payload;\n\nif(typeof global.get(\"status\") === \"undefined\"){\n    if(temp < 23){\n        global.set = {\"status\" : 1}\n        msg.payload = {\"status\" : 1};\n    }\n    else {\n        global.set = {\"status\" : 0}\n        msg.payload = {\"status\" : 0};\n    }\n}\n\nif(temp < 23 && typeof global.get(\"status\") !==1){\n    global.set = {\"status\" : 1}\n    msg.payload = {\"status\" : 1}\n    \n}else if(temp > 23 && typeof global.get(\"status\") !== 0) {\n    global.set = {\"status\" : 0};\n    msg.payload = {\"status\" : 0};\n}\nmsg.headers = {'content-type':'application/json'};\nreturn msg;\n\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 820.5,
-        "y": 432.6666259765625,
+        "x": 639.5,
+        "y": 336.6666259765625,
         "wires": [
             [
-                "daed6f0b.21b678",
-                "b9b063d4.58b41"
+                "a2481cc0.f4674",
+                "d3497b86.45e73"
             ]
         ]
     },
@@ -67,24 +66,24 @@
         "z": "a5d63966.aec19",
         "name": "heating",
         "property": "payload",
-        "propertyType": "msg",
+        "propertyType": "global",
         "rules": [
             {
                 "t": "eq",
-                "v": "on",
-                "vt": "str"
+                "v": "0",
+                "vt": "num"
             },
             {
                 "t": "eq",
-                "v": "off",
-                "vt": "str"
+                "v": "1",
+                "vt": "num"
             }
         ],
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 1012.5,
-        "y": 432.6666259765625,
+        "x": 764.5,
+        "y": 481.6666259765625,
         "wires": [
             [
                 "12435156.dce977"
@@ -106,8 +105,8 @@
         "label": "Heating",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 1212.5,
-        "y": 431.6666259765625,
+        "x": 940.5,
+        "y": 479.6666259765625,
         "wires": []
     },
     {
@@ -132,8 +131,8 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 808.5,
-        "y": 289,
+        "x": 628.5,
+        "y": 274,
         "wires": [],
         "inputLabels": [
             "msg.payload.with.content.temperature"
@@ -163,8 +162,8 @@
         "ret": "obj",
         "url": "http://172.17.0.1:8081/tempsensor/current",
         "tls": "",
-        "x": 366,
-        "y": 349.33331298828125,
+        "x": 157,
+        "y": 338.33331298828125,
         "wires": [
             [
                 "6e6ac425.fe7b24",
@@ -180,8 +179,8 @@
         "func": "msg.payload = msg.payload.with.content.temperature\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 602.5,
-        "y": 349,
+        "x": 412.5,
+        "y": 338,
         "wires": [
             [
                 "eb96a7a9.c5971",
@@ -199,22 +198,8 @@
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 643.5,
-        "y": 564,
-        "wires": []
-    },
-    {
-        "id": "b9b063d4.58b41",
-        "type": "debug",
-        "z": "a5d63966.aec19",
-        "name": "Heating",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 1036.5,
-        "y": 518,
+        "x": 659.5,
+        "y": 613,
         "wires": []
     },
     {
@@ -227,8 +212,109 @@
         "console": false,
         "tostatus": false,
         "complete": "payload",
-        "x": 602.5,
-        "y": 438,
+        "x": 404.5,
+        "y": 390,
+        "wires": []
+    },
+    {
+        "id": "77dd2cfe.dbdfc4",
+        "type": "inject",
+        "z": "a5d63966.aec19",
+        "name": "",
+        "topic": "Temperature",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 124.5,
+        "y": 480,
+        "wires": [
+            [
+                "d4436967.d3de"
+            ]
+        ]
+    },
+    {
+        "id": "d3497b86.45e73",
+        "type": "http request",
+        "z": "a5d63966.aec19",
+        "name": "Put Heating",
+        "method": "PUT",
+        "ret": "obj",
+        "url": "http://172.17.0.1:8081/heating/status",
+        "tls": "",
+        "x": 969,
+        "y": 337,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c1a94503.f303b",
+        "type": "http request",
+        "z": "a5d63966.aec19",
+        "name": "Get Heating",
+        "method": "GET",
+        "ret": "obj",
+        "url": "http://172.17.0.1:8081/heating/status",
+        "tls": "",
+        "x": 597,
+        "y": 481,
+        "wires": [
+            [
+                "daed6f0b.21b678",
+                "d203272.81d8c58"
+            ]
+        ]
+    },
+    {
+        "id": "a437194c.5dec4",
+        "type": "inject",
+        "z": "a5d63966.aec19",
+        "name": "",
+        "topic": "Heating",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 425,
+        "y": 481,
+        "wires": [
+            [
+                "c1a94503.f303b"
+            ]
+        ]
+    },
+    {
+        "id": "a2481cc0.f4674",
+        "type": "debug",
+        "z": "a5d63966.aec19",
+        "name": "Put heating",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 968.5,
+        "y": 274,
+        "wires": []
+    },
+    {
+        "id": "d203272.81d8c58",
+        "type": "debug",
+        "z": "a5d63966.aec19",
+        "name": "Get Heat",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 767.5,
+        "y": 529,
         "wires": []
     },
     {
